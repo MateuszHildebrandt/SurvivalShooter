@@ -1,24 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using State;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI
 {
-    public class MainMenuUI : MonoUI<MainMenuUI>
+    public class MainMenuUI : MonoUI<MainMenuUI>, IStateExtension
     {
+        [Header("References")]
+        [SerializeField] Button continueButton;
+
         #region OnClick
-        public void OnClickNewGame()
+        public void OnClickContinue()
         {
-            SceneManager.LoadScene(1);
+            //TODO: load last file
         }
 
-        public void OnClickOptions()
-        {
+        public void OnClickNewGame() => SceneManager.LoadScene(1);
 
-        }
+        public void OnClickOptions() => OptionsUI.I.EnterState();
 
         public void OnClickExit() => Application.Quit();
+        #endregion
+
+        #region StateMachine
+        void IStateExtension.OnEnter()
+        {
+            continueButton.interactable = false; //TODO: detect save files
+        }
+
+        void IStateExtension.OnExit() { }
         #endregion
     }
 }
