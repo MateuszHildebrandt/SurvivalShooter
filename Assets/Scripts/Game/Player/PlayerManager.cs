@@ -4,16 +4,10 @@ namespace Player
 {
     public class PlayerManager : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] float _health = 100f;
+        [Header("References")]
+        [SerializeField] FloatVariable health;
 
         private InputActions inputActions;
-
-        public float Health
-        {
-            get => _health;
-            set => _health = value;
-        }
 
         private void Awake()
         {

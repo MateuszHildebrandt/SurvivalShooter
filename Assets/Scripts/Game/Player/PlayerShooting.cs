@@ -31,7 +31,7 @@ namespace Player
         {
             Vector2 mouseWorldPoint = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector2 direction = mouseWorldPoint - (Vector2)transform.position;
-            Debug.DrawRay(transform.position, direction, Color.red, 1);
+            Debug.DrawRay(transform.position, direction, Color.red);
             GameObject bullet = Instantiate(bulletPrefab, SetBulletPosition(direction), Quaternion.identity, transform);
             bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce, ForceMode2D.Impulse);
             Destroy(bullet, 5);
