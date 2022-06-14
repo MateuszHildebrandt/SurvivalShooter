@@ -2,9 +2,13 @@ using UnityEngine;
 
 namespace State
 {
-    public interface IStateExtension
+    public interface IStateEnter
     {
         internal void OnEnter();
+    }
+
+    public interface IStateExit
+    {
         internal void OnExit();
     }
 
@@ -23,22 +27,30 @@ namespace State
             }
         }
 
-        private IStateExtension[] _myStateExtension;
-        private IStateExtension[] MyStateExtension
+        private IStateEnter[] _statesEnter;
+        private IStateEnter[] StatesEnter
         {
-            get
-            {
-                if (_myStateExtension == null)
-                    _myStateExtension = GetComponentsInChildren<IStateExtension>();
-                return _myStateExtension;
-            }
+            get => GetIStates(ref _statesEnter);
+        }
+
+        private IStateExit[] _statesExit;
+        private IStateExit[] StatesExit
+        {
+            get => GetIStates(ref _statesExit);
+        }
+
+        private T[] GetIStates<T>(ref T[] states)
+        {
+            if (states == null)
+                states = GetComponentsInChildren<T>();
+            return states;
         }
 
         [ExposeMethodInEditor]
         public void Enter()
         {
             MyStateMachine.SetState(this);
-            foreach (IStateExtension item in MyStateExtension)
+            foreach (IStateEnter item in StatesEnter)
                 item.OnEnter();
 
             PrintStateName();
@@ -46,7 +58,7 @@ namespace State
 
         public void Exit()
         {
-            foreach (IStateExtension item in MyStateExtension)
+            foreach (IStateExit item in StatesExit)
                 item.OnExit();
         }
 

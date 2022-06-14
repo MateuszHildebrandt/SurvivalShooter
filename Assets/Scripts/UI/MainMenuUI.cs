@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class MainMenuUI : MonoUI<MainMenuUI>, IStateExtension
+    public class MainMenuUI : MonoUI<MainMenuUI>, IStateEnter
     {
         [Header("References")]
         [SerializeField] Button continueButton;
@@ -24,12 +24,10 @@ namespace UI
         #endregion
 
         #region StateMachine
-        void IStateExtension.OnEnter()
+        void IStateEnter.OnEnter()
         {
             continueButton.interactable = false; //TODO: detect save files
         }
-
-        void IStateExtension.OnExit() { }
         #endregion
     }
 }

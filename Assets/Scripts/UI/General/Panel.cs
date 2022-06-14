@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class Panel : MonoBehaviour, IStateExtension
+    public class Panel : MonoBehaviour, IStateEnter, IStateExit
     {
         public bool IsActive { get; private set; } = true;
 
@@ -188,12 +188,12 @@ namespace UI
         }
 
         #region StateMachine
-        void IStateExtension.OnEnter()
+        void IStateEnter.OnEnter()
         {
             SetPanelFade(true);
         }
 
-        void IStateExtension.OnExit()
+        void IStateExit.OnExit()
         {
             SetPanelFade(false);
         }
