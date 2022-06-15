@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemies
 {
@@ -10,11 +11,16 @@ namespace Enemies
         private float minDistance = 1;
 
         private Rigidbody2D rigidbody;
+        private NavMeshAgent _agent;
         private float distanceToPlayer;
 
         private void Awake()
         {
             rigidbody = GetComponent<Rigidbody2D>();
+
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.updateRotation = false;
+            _agent.updateUpAxis = false;
         }
 
         private void FixedUpdate()
@@ -31,8 +37,10 @@ namespace Enemies
 
         private void ChasePlayer()
         {
-            Vector2 moveDirection = (Target.position - transform.position).normalized;
-            rigidbody.velocity = moveDirection * Speed;
+            /*Vector2 moveDirection = (Target.position - transform.position).normalized;
+            rigidbody.velocity = moveDirection * Speed;*/
+
+            _agent.destination = Target.position;
         }
     }
 }
