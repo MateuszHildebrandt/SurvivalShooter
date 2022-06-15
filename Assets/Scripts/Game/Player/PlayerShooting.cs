@@ -31,7 +31,7 @@ namespace Player
         [ExposeMethodInEditor]
         public void Shoot()
         {
-            Vector2 mouseWorldPoint = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 mouseWorldPoint = _camera.ScreenToWorldPoint(InputActions.Player.Aim.ReadValue<Vector2>());
             Vector2 direction = mouseWorldPoint - (Vector2)transform.position;
             //Debug.DrawRay(transform.position, direction, Color.red);
             GameObject bullet = Instantiate(bulletPrefab, SetBulletPosition(direction), Quaternion.identity, transform);
