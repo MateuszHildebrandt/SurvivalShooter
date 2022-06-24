@@ -3,7 +3,7 @@ using UnityEngine.U2D.Animation;
 
 namespace Enemies
 {
-    [CreateAssetMenu(menuName ="Enemy/EnemyData")]
+    [CreateAssetMenu(menuName = "ScriptableObject/EnemyData")]
     public class EnemyData : ScriptableObject
     {
         public int health;

@@ -1562,7 +1562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 2084037876}
-  health: {fileID: 11400000, guid: 9ee0c4077c937984793c5fc9372af199, type: 2}
+  playerData: {fileID: 11400000, guid: e16f7e682ccec4a4fa1090008f32cd37, type: 2}
 --- !u!1 &1124601588
 GameObject:
   m_ObjectHideFlags: 0
@@ -4098,6 +4098,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1124601589}
     m_Modifications:
+    - target: {fileID: 7108777332649050379, guid: c7d622bc5423815429d78e7b68ad0706, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: e16f7e682ccec4a4fa1090008f32cd37, type: 2}
     - target: {fileID: 8094781425807214987, guid: c7d622bc5423815429d78e7b68ad0706, type: 3}
       propertyPath: m_Name
       value: Player

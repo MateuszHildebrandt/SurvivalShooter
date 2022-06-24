@@ -5,7 +5,7 @@ namespace Player
     public class PlayerManager : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] FloatVariable health;
+        [SerializeField] PlayerData playerData;
 
         private InputActions inputActions;
 

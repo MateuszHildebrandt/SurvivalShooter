@@ -8,7 +8,7 @@ namespace UI
         [Header("References")]
         [SerializeField] Image healthBar;
         [Header("Resources")]
-        [SerializeField] FloatVariable health;
+        [SerializeField] Player.PlayerData playerData;
 
         private bool _isActive; //TODO
 
@@ -28,7 +28,7 @@ namespace UI
 
         private void UpdateHealthBar()
         {
-            float normalizeValue = health.value * 0.01f; //TODO: use min max;
+            float normalizeValue = playerData.health / playerData.maxHealth;
             if (healthBar.fillAmount != normalizeValue)
                 healthBar.fillAmount = normalizeValue;
         }
