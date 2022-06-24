@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace UI
 {
-    public class OptionsUI : MonoUI<OptionsUI>
+    public class OptionsUI : MonoUI
     {
         #region OnClick
-        public void OnClickReturn() => MainMenuUI.I.EnterState();
+        
         #endregion
     }
 }

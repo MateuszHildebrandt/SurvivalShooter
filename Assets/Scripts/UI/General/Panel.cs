@@ -5,12 +5,15 @@ using UnityEngine.Events;
 
 namespace UI
 {
+    public enum PanelEffect { Alpha, Fade, Slide }
+
     [RequireComponent(typeof(CanvasGroup))]
     public class Panel : MonoBehaviour, IStateEnter, IStateExit
     {
         public bool IsActive { get; private set; } = true;
 
         [Header("Settings")]
+        [SerializeField] PanelEffect userEffect;
         [SerializeField] bool centerOnAwake = true;
         [SerializeField] bool hideOnAwake = true;
         [SerializeField] float duration = 1;
@@ -20,9 +23,6 @@ namespace UI
 
         public enum MoveDirection { Up, Down, Left, Right, }
         public MoveDirection moveDirection;
-
-        [Header("References")]
-        [SerializeField] GameObject content;
 
         [Header("Events")]
         public UnityEvent onEnter;
@@ -56,16 +56,13 @@ namespace UI
             canvasGroup.interactable = value;
             canvasGroup.blocksRaycasts = value;
 
-            if (content != null)
-                content.SetActive(value);
-
             IsActive = value;
 
             if (IsActive)
                 onEnter?.Invoke();
             else
                 onExit?.Invoke();
-        }
+        }       
 
         public void SetPanelAlpha(bool value)
         {
@@ -95,6 +92,16 @@ namespace UI
             SetPanel(value);
             StopAllCoroutines();
             StartCoroutine(SlideCoroutine(value));
+        }
+
+        public void SetUserEffect(bool value)
+        {
+            if (userEffect == PanelEffect.Alpha)
+                SetPanelAlpha(value);
+            else if (userEffect == PanelEffect.Fade)
+                SetPanelFade(value);
+            else if (userEffect == PanelEffect.Slide)
+                SetPanelSlide(value);
         }
 
         [ExposeMethodInEditor]
@@ -190,12 +197,12 @@ namespace UI
         #region StateMachine
         void IStateEnter.OnEnter()
         {
-            SetPanelFade(true);
+            SetUserEffect(true);
         }
 
         void IStateExit.OnExit()
         {
-            SetPanelFade(false);
+            SetUserEffect(false);
         }
         #endregion
     }

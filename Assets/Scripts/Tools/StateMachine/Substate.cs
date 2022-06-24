@@ -4,12 +4,12 @@ namespace State
 {
     public interface IStateEnter
     {
-        internal void OnEnter();
+        public void OnEnter();
     }
 
     public interface IStateExit
     {
-        internal void OnExit();
+        public void OnExit();
     }
 
     public class Substate : MonoBehaviour
@@ -47,20 +47,21 @@ namespace State
         }
 
         [ExposeMethodInEditor]
-        public void Enter()
+        public void Enter() => MyStateMachine.Enter(this);
+
+        internal void OnEnter()
         {
-            MyStateMachine.SetState(this);
             foreach (IStateEnter item in StatesEnter)
                 item.OnEnter();
-
-            PrintStateName();
         }
 
-        public void Exit()
+        internal void OnExit()
         {
             foreach (IStateExit item in StatesExit)
                 item.OnExit();
         }
+
+        public void EnterLastState() => MyStateMachine.EnterLast();
 
         private void PrintStateName()
         {

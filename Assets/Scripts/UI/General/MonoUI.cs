@@ -2,9 +2,9 @@
 namespace UI
 {
     [UnityEngine.RequireComponent(typeof(State.Substate))]
-    public abstract class MonoUI<T> : UnityEngine.MonoBehaviour where T : UnityEngine.MonoBehaviour
+    public abstract class MonoUI : UnityEngine.MonoBehaviour, State.IStateEnter, State.IStateExit
     {
-        public static T I { get; private set; }
+        [ReadOnly, UnityEngine.SerializeField] bool _isActive;
 
         private State.Substate _myState;
         protected State.Substate MyState
@@ -17,12 +17,12 @@ namespace UI
             }
         }
 
-        protected virtual void Awake()
-        {
-            if (I == null)
-                I = this as T;
-        }
+        internal bool IsActive() => _isActive;
 
-        internal void EnterState() => MyState.Enter();
+        public void EnterState() => MyState.Enter();
+
+        public virtual void OnEnter() => _isActive = true;
+
+        public virtual void OnExit() => _isActive = false;
     }
 }

@@ -3,20 +3,21 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class HUD : MonoUI<HUD>
+    public class HUD : MonoUI
     {
         [Header("References")]
         [SerializeField] Image healthBar;
         [Header("Resources")]
         [SerializeField] Player.PlayerData playerData;
 
-        private bool _isActive; //TODO
-
         private const float MAX_TIMER = 0.2f;
         private float _timer = 0;
 
         private void Update()
         {
+            if (IsActive() == false)
+                return;
+
             _timer += Time.deltaTime;
 
             if (_timer > MAX_TIMER)

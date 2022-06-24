@@ -2,13 +2,22 @@ using State;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
-    public class MainMenuUI : MonoUI<MainMenuUI>, IStateEnter
+    public class MainMenuUI : MonoUI
     {
         [Header("References")]
         [SerializeField] Button continueButton;
+
+        private OptionsUI _optionsUI;
+
+        [Inject]
+        private void Constructor(OptionsUI optionsUI)
+        {
+            _optionsUI = optionsUI;
+        }
 
         #region OnClick
         public void OnClickContinue()
@@ -18,14 +27,15 @@ namespace UI
 
         public void OnClickNewGame() => SceneManager.LoadScene(1);
 
-        public void OnClickOptions() => OptionsUI.I.EnterState();
+        public void OnClickOptions() => _optionsUI.EnterState();
 
         public void OnClickExit() => Application.Quit();
         #endregion
 
         #region StateMachine
-        void IStateEnter.OnEnter()
+        public override void OnEnter()
         {
+            base.OnEnter();
             continueButton.interactable = false; //TODO: detect save files
         }
         #endregion

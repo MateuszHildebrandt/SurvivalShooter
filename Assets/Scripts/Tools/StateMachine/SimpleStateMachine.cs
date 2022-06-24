@@ -8,8 +8,8 @@ namespace State
         [SerializeField] Substate defaultState;
 
         [Header("Debug")]
-        [ReadOnly]
-        [SerializeField] Substate currState;
+        [ReadOnly, SerializeField] Substate currState;
+        [ReadOnly, SerializeField] Substate lastState;
 
         private void Start()
         {
@@ -17,7 +17,7 @@ namespace State
                 defaultState.Enter();
         }
 
-        internal void SetState(Substate newState)
+        internal void Enter(Substate newState)
         {
             if (newState == null)
                 return;
@@ -25,8 +25,18 @@ namespace State
             if (newState == currState)
                 return;
 
-            currState?.Exit();
+            currState?.OnExit();
+
+            lastState = currState;
             currState = newState;
+
+            currState.OnEnter();
+        }
+
+        internal void EnterLast()
+        {
+            if (lastState != null)
+                Enter(lastState);
         }
     }
 }
