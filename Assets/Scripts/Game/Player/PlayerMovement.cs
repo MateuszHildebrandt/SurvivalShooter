@@ -4,7 +4,10 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour, IInputActionsReceiver
     {
-        [SerializeField] private float speed;
+        [Header("Settings")]
+        [SerializeField] float speed;
+        [Header("Resources")]
+        [SerializeField] PlayerData playerData;
 
         private Rigidbody2D rigidbody;
         private Vector2 movement;
@@ -29,6 +32,7 @@ namespace Player
         private void Move()
         {
             rigidbody.MovePosition(rigidbody.position + movement * speed * Time.deltaTime);
+            playerData.position = transform.position;
         }
 
         public void SetInputActions(InputActions inputs) => InputActions = inputs;

@@ -4,7 +4,7 @@ namespace Player
 {
     public class PlayerManager : MonoBehaviour
     {
-        [Header("References")]
+        [Header("Resources")]
         [SerializeField] PlayerData playerData;
 
         private InputActions inputActions;
@@ -27,6 +27,11 @@ namespace Player
             {
                 receiver.SetInputActions(inputActions);
             }
+        }
+
+        internal void Load()
+        {
+            transform.position = playerData.position;
         }
     }
 }

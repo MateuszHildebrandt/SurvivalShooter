@@ -1,3 +1,4 @@
+using Tools;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +8,7 @@ namespace Player
     {
         public float health;
         public float maxHealth;
+        public Float2 position;
 
         public void ClampHealth(float value) => health = Mathf.Clamp(value, 0, maxHealth);
 
@@ -14,6 +16,7 @@ namespace Player
         {
             health = 50f;
             maxHealth = 100f;
+            position = new Float2(0, 0);
         }
     }
 }
