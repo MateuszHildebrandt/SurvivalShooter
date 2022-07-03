@@ -8,22 +8,22 @@ namespace Enemies
     {
         public EnemyData EnemyData;
 
-        private EnemyMovement movement;
-        private SpriteLibrary spriteLibrary;
-        private PlayerManager player;
+        private EnemyMovement _movement;
+        private SpriteLibrary _spriteLibrary;
+        private PlayerManager _player;
 
         private void Awake()
         {
-            movement = GetComponent<EnemyMovement>();
-            spriteLibrary = GetComponent<SpriteLibrary>();
-            player = FindObjectOfType<PlayerManager>();
+            _movement = GetComponent<EnemyMovement>();
+            _spriteLibrary = GetComponent<SpriteLibrary>();
+            _player = FindObjectOfType<PlayerManager>();
         }
 
         private void Start()
         {
-            movement.Speed = EnemyData.speed;
-            movement.Target = player.gameObject.transform;
-            spriteLibrary.spriteLibraryAsset = EnemyData.spriteLibrary;
+            _movement.Speed = EnemyData.speed;
+            _movement.Target = _player.gameObject.transform;
+            _spriteLibrary.spriteLibraryAsset = EnemyData.spriteLibrary;
         }
     }
 }

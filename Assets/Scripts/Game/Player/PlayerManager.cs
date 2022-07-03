@@ -5,9 +5,9 @@ namespace Player
     public class PlayerManager : MonoBehaviour
     {
         [Header("Resources")]
-        [SerializeField] PlayerData playerData;
+        [SerializeField] private PlayerData playerData;
 
-        private InputActions inputActions;
+        private InputActions _inputActions;
 
         private void Awake()
         {
@@ -16,16 +16,16 @@ namespace Player
 
         private void OnEnable()
         {
-            inputActions.Player.Enable();
+            _inputActions.Player.Enable();
         }
 
         private void SetInputActions()
         {
-            inputActions = new InputActions();
+            _inputActions = new InputActions();
             var inputActionsReceivers = GetComponentsInChildren<IInputActionsReceiver>();
             foreach (var receiver in inputActionsReceivers)
             {
-                receiver.SetInputActions(inputActions);
+                receiver.SetInputActions(_inputActions);
             }
         }
 

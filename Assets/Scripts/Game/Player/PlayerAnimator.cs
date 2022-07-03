@@ -6,25 +6,25 @@ namespace Player
     {
         public InputActions InputActions { get; private set; }
 
-        private Animator animator;
-        private Vector2 movement;
+        private Animator _animator;
+        private Vector2 _movement;
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
-            movement = InputActions.Player.Move.ReadValue<Vector2>();
+            _movement = InputActions.Player.Move.ReadValue<Vector2>();
             Animate();
         }
 
         private void Animate()
         {
-            animator.SetFloat("Vertical", movement.y);
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Speed", movement.sqrMagnitude);
+            _animator.SetFloat("Vertical", _movement.y);
+            _animator.SetFloat("Horizontal", _movement.x);
+            _animator.SetFloat("Speed", _movement.sqrMagnitude);
         }
 
         public void SetInputActions(InputActions inputs) => InputActions = inputs;

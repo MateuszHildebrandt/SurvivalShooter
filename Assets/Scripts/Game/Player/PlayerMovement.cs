@@ -5,23 +5,23 @@ namespace Player
     public class PlayerMovement : MonoBehaviour, IInputActionsReceiver
     {
         [Header("Settings")]
-        [SerializeField] float speed;
+        [SerializeField] private float speed;
         [Header("Resources")]
-        [SerializeField] PlayerData playerData;
+        [SerializeField] private PlayerData playerData;
 
-        private Rigidbody2D rigidbody;
-        private Vector2 movement;
+        private Rigidbody2D _rigidbody;
+        private Vector2 _movement;
 
         public InputActions InputActions { get; private set; }
 
         private void Awake()
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         private void Update()
         {
-            movement = InputActions.Player.Move.ReadValue<Vector2>();
+            _movement = InputActions.Player.Move.ReadValue<Vector2>();
         }
 
         private void FixedUpdate()
@@ -31,7 +31,7 @@ namespace Player
 
         private void Move()
         {
-            rigidbody.MovePosition(rigidbody.position + movement * speed * Time.deltaTime);
+            _rigidbody.MovePosition(_rigidbody.position + _movement * speed * Time.deltaTime);
             playerData.position = transform.position;
         }
 

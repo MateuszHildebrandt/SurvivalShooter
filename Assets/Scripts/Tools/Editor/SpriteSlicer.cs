@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -7,9 +6,9 @@ namespace Tools
 {
     public class SpriteSlicer : EditorWindow
     {
-        private int cellWidth = 16;
-        private int cellHeight = 16;
-        private FilterMode filterMode;
+        private int _cellWidth = 16;
+        private int _cellHeight = 16;
+        private FilterMode _filterMode;
 
         [MenuItem("Window/Sprite Slicer")]
         public static void ShowWindow()
@@ -19,9 +18,9 @@ namespace Tools
 
         private void OnGUI()
         {
-            cellWidth = EditorGUILayout.IntField("Cell Width:", cellWidth);
-            cellHeight = EditorGUILayout.IntField("Cell Height:", cellHeight);
-            filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode:", filterMode);
+            _cellWidth = EditorGUILayout.IntField("Cell Width:", _cellWidth);
+            _cellHeight = EditorGUILayout.IntField("Cell Height:", _cellHeight);
+            _filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode:", _filterMode);
             if (GUILayout.Button("Reset"))
                 ClearSpritesheet();
             if (GUILayout.Button("Slice"))
@@ -60,7 +59,7 @@ namespace Tools
             if (Selection.objects.Length == 0)
                 Debug.Log("No textures selected!");
 
-            if (cellHeight == 0 || cellWidth == 0)
+            if (_cellHeight == 0 || _cellWidth == 0)
                 return;
 
             foreach (Object o in Selection.objects)
@@ -72,22 +71,22 @@ namespace Tools
                 Texture2D myTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
                 TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
                 textureImporter.isReadable = true;
-                textureImporter.filterMode = filterMode;
-                textureImporter.spritePixelsPerUnit = Mathf.Max(cellHeight, cellWidth);
+                textureImporter.filterMode = _filterMode;
+                textureImporter.spritePixelsPerUnit = Mathf.Max(_cellHeight, _cellWidth);
                 textureImporter.spriteImportMode = SpriteImportMode.Multiple;
 
                 textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
                 List<SpriteMetaData> newData = new List<SpriteMetaData>();
 
-                for (int i = 0; i < myTexture.width; i += cellWidth)
+                for (int i = 0; i < myTexture.width; i += _cellWidth)
                 {
-                    for (int j = myTexture.height; j > 0; j -= cellHeight)
+                    for (int j = myTexture.height; j > 0; j -= _cellHeight)
                     {
                         SpriteMetaData smd = new SpriteMetaData();
                         smd.pivot = new Vector2(0.5f, 0.5f);
                         smd.alignment = 9;
                         smd.name = $"{i},{j}";
-                        smd.rect = new Rect(i, j - cellHeight, cellWidth, cellHeight);
+                        smd.rect = new Rect(i, j - _cellHeight, _cellWidth, _cellHeight);
 
                         newData.Add(smd);
                     }
