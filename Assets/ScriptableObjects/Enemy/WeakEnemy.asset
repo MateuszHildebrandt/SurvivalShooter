@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3749ca52f15e922449fe5396cfa1cd65, type: 3}
   m_Name: WeakEnemy
   m_EditorClassIdentifier: 
-  health: 50
-  attack: 5
+  health: 89
+  attack: 1
   speed: 3.98
-  spriteLibrary: {fileID: 11400000, guid: 9030bef4922da1548afa4b928e79a351, type: 2}
+  spriteLibrary: {fileID: 11400000, guid: c332a3c43e6dd1c4eb6c20dbbbbc2232, type: 2}

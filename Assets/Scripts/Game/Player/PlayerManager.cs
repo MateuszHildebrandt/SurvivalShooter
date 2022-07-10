@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : MonoBehaviour, IDamageable
     {
         [Header("Resources")]
         [SerializeField] private PlayerData playerData;
@@ -32,6 +32,11 @@ namespace Player
         internal void Load()
         {
             transform.position = playerData.position;
+        }
+
+        public void DealDamage(int damage)
+        {
+            playerData.health -= damage;
         }
     }
 }
