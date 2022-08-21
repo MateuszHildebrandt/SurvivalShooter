@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace State
@@ -14,17 +15,23 @@ namespace State
 
     public class Substate : MonoBehaviour
     {
-        private bool isDebug = false;
+        private bool _isActive;
+        private bool _isDebug = false;
 
-        private SimpleStateMachine _myStateMachine;
-        private SimpleStateMachine MyStateMachine
+        private StateMachine _myStateMachine;
+        private StateMachine MyStateMachine
         {
             get
             {
                 if (_myStateMachine == null)
-                    _myStateMachine = GetComponentInParent<SimpleStateMachine>();
+                    _myStateMachine = GetComponentInParent<StateMachine>();
                 return _myStateMachine;
             }
+        }
+
+        void Awake()
+        {
+            SetChildsActive(false);
         }
 
         private IStateEnter[] _statesEnter;
@@ -42,31 +49,78 @@ namespace State
         private T[] GetIStates<T>(ref T[] states)
         {
             if (states == null)
-                states = GetComponentsInChildren<T>();
+                states = GetComponents<T>();
             return states;
         }
 
         [ExposeMethodInEditor]
-        public void Enter() => MyStateMachine.Enter(this);
+        public void Enter() => MyStateMachine.EnterWithParents(this);
 
         internal void OnEnter()
         {
-            foreach (IStateEnter item in StatesEnter)
-                item.OnEnter();
+            if (_isActive)
+                return;
+            _isActive = true;
+
+            PrintStateName("Enter");
+            SetChildsActive(true);
+
+            StopAllCoroutines();
+
+            if (isActiveAndEnabled)
+            {
+                StartCoroutine(WaitFor(0.1f, () =>
+                {
+                    foreach (IStateEnter item in StatesEnter)
+                        item.OnEnter();
+                }));
+            }
         }
 
         internal void OnExit()
         {
-            foreach (IStateExit item in StatesExit)
-                item.OnExit();
+            if (_isActive == false)
+                return;
+            _isActive = false;
+
+            PrintStateName("Exit");
+            StopAllCoroutines();
+
+            if (isActiveAndEnabled)
+            {
+                StartCoroutine(WaitFor(0.1f, () =>
+                {
+                    foreach (IStateExit item in StatesExit)
+                        item.OnExit();
+                }));
+            }
+
+            SetChildsActive(false);
         }
 
         public void EnterLastState() => MyStateMachine.EnterLast();
 
-        private void PrintStateName()
+        private void SetChildsActive(bool value)
         {
-            if(isDebug)
-                Debug.Log($"Enter state: {gameObject.name}", this);
+            int childCount = transform.childCount;
+            for (int i = 0; i < childCount; i++)
+            {
+                Transform child = transform.GetChild(i);
+                if (child.GetComponent<Substate>() == null)
+                    child.gameObject.SetActive(value);
+            }
+        }
+
+        private IEnumerator WaitFor(float seconds, System.Action onDone)
+        {
+            yield return new WaitForSeconds(seconds);
+            onDone.Invoke();
+        }
+
+        private void PrintStateName(string tag)
+        {
+            if(_isDebug)
+                Debug.Log($"{tag} state: {gameObject.name}", this);
         }
     }
 }
