@@ -13,7 +13,12 @@ namespace UI
         private const float MAX_TIMER = 0.2f;
         private float _timer = 0;
 
-        private void Update()
+        private void Start()
+        {
+            playerData.onHealth += () => UpdateHealthBar();
+        }
+
+        /*private void Update()
         {
             if (IsActive() == false)
                 return;
@@ -25,11 +30,11 @@ namespace UI
                 UpdateHealthBar();
                 _timer = 0;
             }
-        }
+        }*/
 
         private void UpdateHealthBar()
         {
-            float normalizeValue = playerData.health / playerData.maxHealth;
+            float normalizeValue = playerData.Health / playerData.maxHealth;
             if (healthBar.fillAmount != normalizeValue)
                 healthBar.fillAmount = normalizeValue;
         }

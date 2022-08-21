@@ -36,7 +36,7 @@ namespace Player
 
         public void DealDamage(int damage)
         {
-            playerData.health -= damage;
+            playerData.Health -= damage;
         }
     }
 }
